@@ -1,0 +1,14 @@
+{
+  "name": "my_customer",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/umeshvishwa/my_customer.git",
+  "author": "Kumar Vishwakarma, U. <u.kumar.vishwakarma@accenture.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
