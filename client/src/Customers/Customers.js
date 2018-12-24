@@ -28,7 +28,7 @@ class Customers extends Component {
           {
             this.state.customers && this.state.customers.map((customer) => (
               <div key={customer.id} className="col-sm-12 col-md-4 col-lg-3">
-                <Link to={`/customer/${customer.id}`}>
+                <Link to={`/customer/5c1e19d97dc86cb448a42c15}`}>
                   <div className="card text-white bg-success mb-3">
                     <div className="card-header">Name: {customer.customer.profile.email}</div>
                     <div className="card-body">

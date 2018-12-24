@@ -12,3 +12,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.img-thumbnail {
+  padding: 0;
+  border: 1px solid #dee2e6;
+  border-radius: 25%;
+  max-width: 35px;
+}
