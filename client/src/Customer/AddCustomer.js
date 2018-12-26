@@ -34,17 +34,24 @@ class AddCustomer extends Component {
     const {customer} = this.state;
     if (customer === null) return <p>Loading ...</p>;
     return (
-      <div className="container">
-        <div className="row">
-          <div className="jumbotron col-12">
-            <h1 className="display-3">{customer.profile.name.first} {customer.profile.name.last}</h1>
-            <p className="lead">{customer.profile.dob}</p>
-            <hr className="my-4" />
+      <div className="container wrapper-form">
+        <form>
+          <h2>Add Customer</h2>
+          <p className="hint-text">Create your account. It's free and only takes a minute.</p>
+          <div className="form-group">
+            <div className="row">
+              <div className="col-xs-6">
+                <input type="text" className="form-control" name="first_name" placeholder="First Name" required="required" />
+              </div>
+              <div className="col-xs-6">
+                <input type="text" className="form-control" name="last_name" placeholder="Last Name" required="required" />
+              </div>
+            </div>        	
           </div>
-        </div>
+        </form>
       </div>
     )
   }
 }
 
-export default Customer;
+export default AddCustomer;

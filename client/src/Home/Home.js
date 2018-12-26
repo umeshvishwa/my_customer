@@ -1,17 +1,9 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 
 class Home extends Component {
     constructor() {
         super();
-        
-        axios.get('/api/server/up')
-        .then((response) => {
-            console.log(response)
-        })
-        .catch(reason => {
-            console.log(reason);
-        })
+        this.state = {}
     }
     render() {
         return (
