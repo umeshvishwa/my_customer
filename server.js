@@ -6,7 +6,7 @@ const logger = require("morgan");
 const helmet = require('helmet');
 const Data = require("./data");
 const path = require('path');
-
+const cors = require('cors');
 const app = express();
 //const router = express.Router();
 
@@ -31,6 +31,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 app.use(helmet());
+
+// Set up a whitelist and check against it:
+var whitelist = ['http://localhost:3000', 'http://example2.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+//Enable cors
+app.use(cors(corsOptions));
+
 // this is our get method
 // this method fetches all available data in our database
 /*router.get("/getData", (req, res) => {

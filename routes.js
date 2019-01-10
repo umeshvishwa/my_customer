@@ -22,7 +22,7 @@ const checkJwt = jwt({
     //res.render('index')
 //});
 
-router.route('/insert')
+router.route('/customer/add')
 .post(function(req,res) {
     var customer = new Customer();
     customer.userId = req.body.userId;
@@ -43,7 +43,7 @@ router.route('/insert')
 
 })
 
-router.route('/update')
+router.route('/customer/update')
 .post(function(req, res) {
     const doc = {
         userId : req.body.userId,
@@ -65,17 +65,18 @@ router.route('/update')
     });
 });
 
-router.get('/delete', function(req, res){
+router.delete('/customer/delete', function(req, res){
     var id = req.query.id;
     Customer.find({_id: id}).remove().exec(function(err, customer) {
         if(err)
             res.send(err)
-        res.send('Customer successfully deleted!');
+        res.send('Customer successfully removed!');
     })
 });
 
-router.get('/getAll',function(req, res) {
+router.get('/customer/getAll', function(req, res) {
     var userId = req.query.user;
+    console.log('userId:'+userId);
     Customer.find({$and: [ {userId: userId}]}, function(err, customers) {
         if (err)
             res.send(err);
@@ -84,7 +85,7 @@ router.get('/getAll',function(req, res) {
 
 });
 
-router.get('/get', checkJwt, function(req, res) {
+router.get('/customer/get', function(req, res) {
     var id = req.query.id;
     console.log(req.user);
     Customer.find({_id: id}, function(err, customer) {
@@ -94,5 +95,16 @@ router.get('/get', checkJwt, function(req, res) {
     })
 
 });
+
+/*router.get('/customer/get', checkJwt, function(req, res) {
+    var id = req.query.id;
+    console.log(req.user);
+    Customer.find({_id: id}, function(err, customer) {
+        if(err)
+            res.send(err)
+        res.json(customer);
+    })
+
+});*/
 
 module.exports = router;

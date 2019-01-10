@@ -20,4 +20,6 @@ code {
   max-width: 35px;
 }
 
+@import '../styles/_vars.scss';
 @import '../styles/_form.scss';
+@import '../styles/customers.scss';
