@@ -33,12 +33,13 @@ app.use(logger("dev"));
 app.use(helmet());
 
 // Set up a whitelist and check against it:
-var whitelist = ['http://localhost:3000', 'http://example2.com']
+var whitelist = ['http://localhost:3000', 'https://mycustomerapp.herokuapp.com/']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
+      console.log(origin)
       callback(new Error('Not allowed by CORS'))
     }
   }
