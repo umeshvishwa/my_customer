@@ -10,7 +10,7 @@ class Auth {
       domain: 'mycustomer.auth0.com',
       clientID: '78Uj1OuUejy94LGdZoYe5t2o90ln0pKp',
       audience: 'https://mycustomer.auth0.com/api/v2/',
-      redirectUri: 'http://localhost:3000/callback',
+      redirectUri: 'https://mycustomerapp.herokuapp.com/callback',
       responseType: 'token id_token',
       scope: 'openid profile'
     });
