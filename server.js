@@ -114,17 +114,17 @@ app.use("/api", router);
   // Return them as json
   res.json(response);
 });
-
+*/
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
-  //res.sendFile(path.join(__dirname+'/client/build/index.html'));
-  res.json({
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  /*res.json({
       message: 'Invalid request',
       status: 400
-  });
+  });*/
 });
-*/
+
 const port = process.env.PORT || 5000;
 
 // launch our backend into a port

@@ -19,6 +19,5 @@
   "scripts": {
     "start": "node server.js",
     "heroku-postbuild": "cd client && yarn && yarn run build"
-  },
-  "proxy": "http://localhost:3000"
+  }
 }
