@@ -117,13 +117,20 @@ app.use("/api", router);
 */
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
+//production mode
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  //
+  app.get('*', (req, res) => {
+    res.sendfile(path.join(__dirname = 'client/build/index.html'));
+  })
+}
+//build mode
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-  /*res.json({
-      message: 'Invalid request',
-      status: 400
-  });*/
-});
+  res.sendFile(path.join(__dirname+'/client/public/index.html'));
+})
+
+
 
 const port = process.env.PORT || 5000;
 

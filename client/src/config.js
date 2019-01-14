@@ -15,8 +15,8 @@ const constants = Object.freeze({
     get: () => {
 
       const interfaces = {
-        localhost: 'http://localhost:5000/api',
-        'ips-test': 'http://demo.ipsservices.com',
+        localhost: 'http://localhost:3000/api',
+        'mycustomerapp.herokuapp.com': 'http://mycustomerapp.herokuapp.com/api',
       };
       return interfaces[window.location.hostname] || false;
 
