@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 var Customer = require('./models/Customer');
-
+var Address = require('./models/Address');
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
       cache: true,
@@ -35,11 +35,27 @@ router.route('/customer/add')
     customer.pcId = req.body.pcId;
     customer.password = req.body.password;
 
-    customer.save(function(err) {
+    var address = new Address();
+    address.line1 = req.body.address.line1;
+    address.line2 = req.body.address.line2;
+    address.city = req.body.address.city;
+    address.state = req.body.address.state;
+    address.save(function(err) {
         if (err)
         res.send(err);
-        res.send('Customer successfully added!');
-    });
+    })
+    
+    if(address.id) {
+        customer.address.push(address.id);
+        customer.save(function(err) {
+            if (err) {
+                address.remove();
+                res.send(err);
+            }
+            
+            res.send('Customer successfully added!');
+        });
+    } 
 
 })
 
