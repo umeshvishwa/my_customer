@@ -26,7 +26,8 @@ router.route('/customer/add')
 .post(function(req,res) {
     var customer = new Customer();
     customer.userId = req.body.userId;
-    customer.name = req.body.name;
+    customer.first_name = req.body.first_name;
+    customer.last_name = req.body.last_name;
     customer.mobile = req.body.mobile;
     customer.emailId = req.body.emailId;
     customer.birthDate = req.body.birthDate;
@@ -83,7 +84,13 @@ router.route('/customer/update')
 
 router.delete('/customer/delete', function(req, res){
     var id = req.query.id;
-    Customer.find({_id: id}).remove().exec(function(err, customer) {
+    Customer.findOne({_id: id}).exec(function(err, customer) {
+        customer.address.forEach((addr) => {
+            Address.find({_id: addr}).remove().exec();
+        });
+    });
+    
+    Customer.findOne({_id: id}).remove().exec(function(err, customer) {
         if(err)
             res.send(err)
         res.send('Customer successfully removed!');

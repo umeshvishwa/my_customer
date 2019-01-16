@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import auth0Client from '../Auth';
-import axios from 'axios';
 import $http from '../Utility/Http';
 
 class AddCustomer extends Component {
@@ -66,7 +65,7 @@ class AddCustomer extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
+    
     $http.post("/customer/add", this.state.customer)
     .then((data) => {
       console.log(data);

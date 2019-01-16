@@ -54,6 +54,25 @@
         }
       }
     }
-  
+    
+    > .card-footer{
+      padding: 5px;
+      i {
+        font-size: 30px;
+        margin-right: 10px;
+      }
+      span{
+        display: inline-block;
+        max-width: 75%;
+        line-height: 1.1;
+      }
+      .icon-trash{
+        color: $red;
+        cursor: pointer;
+        i{
+          font-size: 20px;
+        }
+      }
+    }
 }
   
