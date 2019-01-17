@@ -6,8 +6,8 @@ import Callback from './Callback';
 import SecuredRoute from './SecuredRoute/SecuredRoute';
 import Home from './Home/Home';
 import Customers from './Customers/Customers';
-import Customer from './Customer/Customer';
 import AddCustomer from './Customer/AddCustomer';
+import Customer from './Customer/Customer';
 
 
 class App extends Component {
@@ -39,8 +39,9 @@ class App extends Component {
         <NavBar/>
         <Route exact path='/' component={Home}/>
         <SecuredRoute path='/customers' component={Customers} checkingSession={this.state.checkingSession}/>
-        <SecuredRoute exact path='/customer/:customerId' component={Customer} checkingSession={this.state.checkingSession}/>
-        <SecuredRoute exact path='/customer/' component={AddCustomer} checkingSession={this.state.checkingSession}/>
+        <SecuredRoute exact path='/customer/update' component={AddCustomer} checkingSession={this.state.checkingSession}/>
+        <SecuredRoute exact path='/customer/add' component={AddCustomer} checkingSession={this.state.checkingSession}/>
+        <SecuredRoute exact path='/customer/view' component={Customer} checkingSession={this.state.checkingSession}/>
         <Route exact path='/callback' component={Callback}/>
       </div>
     );

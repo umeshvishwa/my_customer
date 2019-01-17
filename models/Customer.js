@@ -12,6 +12,7 @@ var customerSchema = new Schema({
   incomeBracket: String,
   address: [{type: Schema.Types.ObjectId, ref:'Address'}],
   products: [{type: Schema.Types.ObjectId, ref: 'Product'}],
+  is_pc: false,
   pcId: Number,
   password: String,
   created: { type: Date, default: Date.now },

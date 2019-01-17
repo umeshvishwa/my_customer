@@ -80,7 +80,7 @@ class Customers extends Component {
                 
                   <div className="card-info card text-white bg-success mb-3">
                     <div className="card-header">
-                      <Link to={`/customer/5c1e19d97dc86cb448a42c15}`} className="link">
+                      <Link to={`/customer/view?` + customer._id} className="link">
                         <i className="fa fa-user"></i>
                         <p className="title-card">{customer.name}</p>
                       </Link>
@@ -104,6 +104,9 @@ class Customers extends Component {
                       </ul>
                     </div>
                     <div className="card-footer">
+                        <Link className="icon-edit float-left" to={"/customer/update?id="+customer._id}>
+                          <i className="fa fa-edit"></i>
+                        </Link> 
                         <span className="icon-trash float-right" onClick={() => this.handleRemove(customer._id)}>
                           <i className="fa fa-trash"></i>
                         </span>          
