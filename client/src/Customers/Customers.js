@@ -82,7 +82,7 @@ class Customers extends Component {
                     <div className="card-header">
                       <Link to={`/customer/view?` + customer._id} className="link">
                         <i className="fa fa-user"></i>
-                        <p className="title-card">{customer.name}</p>
+                        <p className="title-card">{customer.first_name} {customer.last_name}</p>
                       </Link>
                     </div>
                     <div className="card-body">

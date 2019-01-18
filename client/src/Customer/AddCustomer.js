@@ -29,7 +29,7 @@ class AddCustomer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  async componentDidMount() {console.log(this.props)
+  async componentDidMount() {
     let userProfile = auth0Client.getProfile();
     let queryParams = qs.parse(this.props.location.search);
     
@@ -37,8 +37,6 @@ class AddCustomer extends Component {
     customer["userId"] = userProfile.sub;
     this.setState({ customer })
     
-    console.log(this.props);
-    console.log(queryParams);
     if(queryParams.id !== undefined) {
       this.loadCustomer(queryParams.id, userProfile.sub);
     }
@@ -71,32 +69,41 @@ class AddCustomer extends Component {
   handleSubmit(event) {
     event.preventDefault();
     
-    if(this.state.customer._id !== undefined) {
+    if(this.state.customer._id === undefined) {
       $http.post("/customer/add", this.state.customer)
-      .then((data) => {
-        console.log(data);
+      .then(({data}) => {
+        if(data._id) {
+          this.props.history.push('/customers')
+        }
       })
       .catch(reason => {
         console.error("Error:" + reason);
-      })
-      .finally(() => {
-        console.log('Finally');
       });
     } else {
-
-    }    
+      $http.post("/customer/update", this.state.customer)
+      .then(({data}) => {
+        if(data) {
+          this.props.history.push('/customers')
+        }
+      })
+      .catch(reason => {
+        console.error("Error:" + reason);
+      });
+    }
   }
 
   render() {
     const {customer} = this.state;
+    let queryParams = qs.parse(this.props.location.search);
     if (customer === null) return <p>Loading ...</p>;
-    
+
+    const pageTitle = (queryParams.id === undefined) ? 'Add Customer' : 'Edit Customer';
     return (
       <div className="container wrapper-form">
         <form onSubmit={this.handleSubmit}>
           <input type="hidden" name="userId" value=""></input>
-          <h2>Add Customer</h2>
-          <p className="hint-text">Create your account. It's free and only takes a minute.</p>
+          <h2>{pageTitle}</h2>
+          <p className="hint-text">Create your customer to record their information.</p>
           <div className="form-group">
             <div className="row">
               <div className="col-12 col-sm-6 col-lg-6">

@@ -43,11 +43,12 @@ router.route('/customer/add')
     customer.state = req.body.state;
     customer.postal_code = req.body.postal_code;
     
-    customer.save(function(err) {
+    customer.save(function(err, customer) {
         if (err) {
             res.send(err);
-        }        
-        res.send('Customer successfully added!');
+        }
+        
+        res.send(customer);
     });
 })
 
@@ -72,22 +73,18 @@ router.route('/customer/update')
         state : req.body.state,
         postal_code : req.body.postal_code
     };
-    console.log(doc);
-    Customer.update({_id: req.body._id}, doc, function(err, result) {
+    
+    Customer.update({_id: req.body._id}, doc, function(err) {
         if (err)
             res.send(err);
-        res.send('Customer successfully updated!');
+        
+        res.send(true);
     });
 });
 
 router.delete('/customer/delete', function(req, res){
     var id = req.query.id;
-    Customer.findOne({_id: id}).exec(function(err, customer) {
-        customer.address.forEach((addr) => {
-            Address.find({_id: addr}).remove().exec();
-        });
-    });
-    
+        
     Customer.findOne({_id: id}).remove().exec(function(err, customer) {
         if(err)
             res.send(err)
@@ -97,7 +94,7 @@ router.delete('/customer/delete', function(req, res){
 
 router.get('/customer/getAll', function(req, res) {
     var userId = req.query.user;
-    console.log('userId:'+userId);
+    
     Customer.find({$and: [ {userId: userId}]}, function(err, customers) {
         if (err)
             res.send(err);
@@ -108,7 +105,7 @@ router.get('/customer/getAll', function(req, res) {
 
 router.get('/customer/get', function(req, res) {
     var id = req.query.id;
-    console.log(req.query.user);
+    
     Customer.findOne({_id: id, userId: req.query.user}, function(err, customer) {
         if(err)
             res.send(err)
