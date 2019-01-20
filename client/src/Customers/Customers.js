@@ -3,6 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 import auth0Client from '../Auth';
 import $http from '../Utility/Http';
 import Loader from 'react-loader-spinner';
+import ConfirmModal from '../Custom/ConfirmModal'
 
 class Customers extends Component {
   constructor(props) {
@@ -11,8 +12,11 @@ class Customers extends Component {
     this.state = {
       customers: null,
       loading: 0,
+      selectedCustomerId: null,
+      isModalDisplay: false,
     };
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleModalButton = this.handleModalButton.bind(this);
   }
 
   async componentDidMount() {
@@ -36,6 +40,24 @@ class Customers extends Component {
     }); 
   }
 
+  handleModalButton(isConfirmed) {
+    if(isConfirmed) {
+      this.handleRemove(this.state.selectedCustomerId);
+    } 
+    
+    //Hide modal window
+    this.setStateValue({
+      isModalDisplay: false
+    });
+  }
+
+  showConfirmModal(selectedCustomerId) {
+    this.setStateValue({
+      isModalDisplay: true,
+      selectedCustomerId: selectedCustomerId
+    });
+  }
+
   handleRemove(cid) {
     this.increamentLoadingCounter();
     $http.delete("/customer/delete", {
@@ -49,20 +71,25 @@ class Customers extends Component {
     })
     .finally(() => {
       this.decreamentLoadingCounter();
-      console.log('Finally');
     });
   }
   increamentLoadingCounter() {
     let loading = this.state.loading + 1;
     this.setState(Object.assign(this.state, {loading: loading}));
-    console.log(this.state)
   }
   decreamentLoadingCounter() {
     if(this.state.laoding === 0) return ;
     let loading = this.state.loading - 1;
     this.setState(Object.assign(this.state, {loading: loading}));
-    console.log(this.state)
   }
+
+  /**
+   * Method to set value in state
+   */
+  setStateValue(obj) {
+    this.setState(Object.assign(this.state, obj));
+  }
+
   render() {
     let styleDisplay = (this.state.loading > 0) ? {display: 'block'} : {display: 'none'};
     
@@ -71,6 +98,15 @@ class Customers extends Component {
         <div className="loader" style={styleDisplay}>
           <Loader width="20" height="20"/>
         </div>
+        
+        <ConfirmModal show={this.state.isModalDisplay}
+          title="Are you sure? "
+          body="Customer will be removed parmanently. Do you still want to remove this customer?"
+          actionButton="Yes"
+          closeButton="No" 
+          onButtonClick={this.handleModalButton} 
+        />
+
         <div className="row">
           {this.state.customers === null && <p>Loading customers...</p>}
           {this.state.customers && this.state.customers.length === 0 && <p>You have yet not added any customer.</p>}
@@ -107,7 +143,7 @@ class Customers extends Component {
                         <Link className="icon-edit float-left" to={"/customer/update?id="+customer._id}>
                           <i className="fa fa-edit"></i>
                         </Link> 
-                        <span className="icon-trash float-right" onClick={() => this.handleRemove(customer._id)}>
+                        <span className="icon-trash float-right" onClick={() => this.showConfirmModal(customer._id)}>
                           <i className="fa fa-trash"></i>
                         </span>          
                     </div>
