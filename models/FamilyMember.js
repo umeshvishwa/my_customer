@@ -1,9 +1,10 @@
-//models/Kid.js
+//models/FamilyMember.js
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var kidSchema = new Schema({
+var FamilyMemberSchema = new Schema({
   name: String,
   birthDate: String,
+  relation: String,
   customer: {type: Schema.Types.ObjectId, ref: 'Customer'}
 });
-module.exports = mongoose.model('Kid', kidSchema);
+module.exports = mongoose.model('FamilyMember', FamilyMemberSchema);

@@ -8,7 +8,7 @@ import Home from './Home/Home';
 import Customers from './Customers/Customers';
 import AddCustomer from './Customer/AddCustomer';
 import Customer from './Customer/Customer';
-
+import AddCustomerFamily from './Customer/AddCustomerFamily';
 
 class App extends Component {
 
@@ -42,6 +42,7 @@ class App extends Component {
         <SecuredRoute exact path='/customer/update' component={AddCustomer} checkingSession={this.state.checkingSession}/>
         <SecuredRoute exact path='/customer/add' component={AddCustomer} checkingSession={this.state.checkingSession}/>
         <SecuredRoute exact path='/customer/view' component={Customer} checkingSession={this.state.checkingSession}/>
+        <SecuredRoute exact path='/customer/family/add' component={AddCustomerFamily} checkingSession={this.state.checkingSession}/>
         <Route exact path='/callback' component={Callback}/>
       </div>
     );

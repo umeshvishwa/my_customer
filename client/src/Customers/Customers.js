@@ -4,6 +4,7 @@ import auth0Client from '../Auth';
 import $http from '../Utility/Http';
 import Loader from 'react-loader-spinner';
 import ConfirmModal from '../Custom/ConfirmModal'
+import moment from 'moment';
 
 class Customers extends Component {
   constructor(props) {
@@ -92,7 +93,7 @@ class Customers extends Component {
 
   render() {
     let styleDisplay = (this.state.loading > 0) ? {display: 'block'} : {display: 'none'};
-    
+    let userProfile = auth0Client.getProfile();
     return (
       <div className="container">
         <div className="loader" style={styleDisplay}>
@@ -116,27 +117,29 @@ class Customers extends Component {
                 
                   <div className="card-info card text-white bg-success mb-3">
                     <div className="card-header">
-                      <Link to={`/customer/view?` + customer._id} className="link">
+                      <Link to={`/customer/view?id=` + customer._id+`&user=` + userProfile.sub} className="link">
                         <i className="fa fa-user"></i>
                         <p className="title-card">{customer.first_name} {customer.last_name}</p>
                       </Link>
                     </div>
                     <div className="card-body">
                       <ul>
-                        <li>
-                          <span className="label-custom">Date of Birth:</span>
-                          <p className="value">{customer.birthDate}</p>
-                        </li>
-                        { customer.email && 
+                        { customer.birthDate && 
                           <li>
-                            <span className="label-custom">Email ID:</span>
-                            <p className="value">{customer.email}</p>
+                            <span className="label-custom">Date of Birth:</span>
+                            <span className="value">
+                              {moment(customer.birthDate, 'YYYY-MM-DD').format('DD MMM YYYY')}
+                            </span>
                           </li>
                         }
-                        <li>
-                          <span className="label-custom">Mobile#:</span>
-                          <p className="value">{customer.mobile}</p>
-                        </li>
+                        { customer.anniversaryDate && 
+                          <li>
+                            <span className="label-custom">Date of Birth:</span>
+                            <span className="value">
+                              {moment(customer.anniversaryDate, 'YYYY-MM-DD').format('DD MMM YYYY')}
+                            </span>
+                          </li>
+                        }
                       </ul>
                     </div>
                     <div className="card-footer">

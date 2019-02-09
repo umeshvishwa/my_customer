@@ -164,7 +164,7 @@ class AddCustomer extends Component {
               <div className="col-12 col-sm-6 col-lg-6">
                 <label>Birth Date:</label>
                 <input type="date" className="form-control" name="birthDate" onChange={this.handleChange} 
-                  value={customer.birthdate} />
+                  value={customer.birthDate} />
               </div>
               <div className="col-12 col-sm-6 col-lg-6">
                 <label>Anniversary:</label>
