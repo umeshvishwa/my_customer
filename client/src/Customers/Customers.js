@@ -126,17 +126,17 @@ class Customers extends Component {
                       <ul>
                         { customer.birthDate && 
                           <li>
-                            <span className="label-custom">Date of Birth:</span>
+                            <span className="label-custom">DOB:</span>
                             <span className="value">
                               {moment(customer.birthDate, 'YYYY-MM-DD').format('DD MMM YYYY')}
                             </span>
                           </li>
                         }
-                        { customer.anniversaryDate && 
+                        { customer.anniversary && 
                           <li>
-                            <span className="label-custom">Date of Birth:</span>
+                            <span className="label-custom">Anniversary:</span>
                             <span className="value">
-                              {moment(customer.anniversaryDate, 'YYYY-MM-DD').format('DD MMM YYYY')}
+                              {moment(customer.anniversary, 'YYYY-MM-DD').format('DD MMM YYYY')}
                             </span>
                           </li>
                         }
