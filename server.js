@@ -118,7 +118,7 @@ app.use("/api", router);
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 //production mode
-console.log(process.env.NODE_ENV);
+console.log(process.env);
 if(process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendfile(path.join(__dirname = 'client/build/index.html'));

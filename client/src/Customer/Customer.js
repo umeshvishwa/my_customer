@@ -45,14 +45,19 @@ class Customer extends Component {
     return (
       <div className="container customer">
         <div className="row">
-          <div className="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+          <div className="col-md-offset-2 col-md-8 col-lg-6">
             <div className="well profile">
                   <div className="col-sm-12">
+                    <div className="row">
+                      <div className="col-12">
+                        <h2>{customer.first_name} {customer.last_name}</h2>
+                      </div>
+                    </div>
+                    <div className="row">
                       <div className="col-xs-12 col-sm-8">
-                          <h2>{customer.first_name} {customer.last_name}</h2>
                           <p>
                             <strong>Birth: </strong> {moment(customer.birthDate, 'YYYY-MM-DD').format('DD MMM YYYY')} 
-                            <strong style={{"padding-left": "15px"}}>Age: </strong> {this.getAge(customer.birthDate)} 
+                            <strong style={{"paddingLeft": "15px"}}>Age: </strong> {this.getAge(customer.birthDate)} 
                           </p>
                           {customer.anniversary !== '' && <p><strong>Anniversary: </strong> {moment(customer.anniversary, 'YYYY-MM-DD').format('DD MMM YYYY')} </p>}
                           {customer.email !== '' && <p><strong>Email: </strong> {customer.email} </p>}
@@ -73,6 +78,7 @@ class Customer extends Component {
                             <strong>Password: </strong> {customer.password} 
                           </p>}   
                       </div>
+                    </div>
                   </div>            
                   <div className="col-xs-12 divider text-center">
                       <div className="col-xs-12 col-sm-4 emphasis">
@@ -85,9 +91,9 @@ class Customer extends Component {
                       <div className="col-xs-12 col-sm-4 emphasis">
                           <h2><strong>245</strong></h2>                    
                           <p><small>Following</small></p>
-                          <Link to={`/customer/family/add?id=` + customer._id}>
+                          <Link to={`/customer/family/add?cust_id=` + customer._id}>
                             <button className="btn btn-info btn-block">
-                              <span className="fa fa-user"></span> Add Family
+                              <span className="fa fa-user"></span>Add Family
                             </button>
                           </Link>                          
                       </div>

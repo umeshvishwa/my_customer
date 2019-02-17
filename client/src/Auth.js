@@ -11,8 +11,9 @@ class Auth {
       clientID: '78Uj1OuUejy94LGdZoYe5t2o90ln0pKp',
       audience: 'https://mycustomer.auth0.com/api/v2/',
       redirectUri: 'https://mycustomerapp.herokuapp.com/callback',
+      //redirectUri: 'http://localhost:3000/callback',
       responseType: 'token id_token',
-      scope: 'openid profile'
+      scope: 'openid profile email'
     });
 
     this.getProfile = this.getProfile.bind(this);
@@ -39,6 +40,15 @@ class Auth {
 
   isAuthenticated() {
     return new Date().getTime() < this.expiresAt;
+  }
+
+  isEmailVerified() {
+    return this.profile.email_verified;
+  }
+
+  hasRole(roles) {
+    let userRoles = this.profile['https://user/roles'] || [];
+    return roles.some(role => userRoles.includes(role));
   }
 
   signIn() {

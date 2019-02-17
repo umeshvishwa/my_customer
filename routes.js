@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 var Customer = require('./models/Customer');
+var familyMemberController = require("./controllers/FamilyMemberController");
+var productBrandController = require("./controllers/ProductBrandController");
 var Address = require('./models/Address');
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
@@ -124,5 +126,43 @@ router.get('/customer/get', function(req, res) {
     })
 
 });*/
+
+router.route('/customer/family/add')
+.post(function(req,res) {
+    familyMemberController.addFamilyMember(req.body, function(results) {
+        res.json(results);
+    });
+})
+
+/**
+ * Routes for managing product brand
+ */
+//Add new product brand
+router.route('/product/brand')
+.post(function(req,res) {
+    productBrandController.addProductBrand(req.body, function(results) {
+        res.json(results);
+    });
+})
+
+//Get all the brands
+router.get('/product/brand', function(req, res){
+    productBrandController.getAllProductBrands(function(results){res.json(results);});
+});
+
+//Update existing brand
+router.route('/product/brand/:id')
+.put(function(req, res){
+    productBrandController.updateProductBrand(req.body, req.params.id, function(results){
+        res.json(results);
+    });
+});
+
+//Delete existing brand
+router.delete('/product/brand/:id', function(req, res){
+    productBrandController.deleteProductBrand(req.params.id, function(results){
+        res.json(results);
+    });
+});
 
 module.exports = router;

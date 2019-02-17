@@ -1,0 +1,26 @@
+.icon-trash{
+    color: $red;
+    cursor: pointer;
+    padding: 5px;
+    i{
+      font-size: 14px;
+    }
+}
+.icon-edit{
+    color: $blue;
+    cursor: pointer;
+    padding: 5px;
+    i{
+      font-size: 14px;
+    }
+}
+
+/**Alignment CSS */
+.row {
+    position: relative;
+}
+.bottom-align {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

@@ -44,26 +44,26 @@ class NavBar extends Component {
 
                 <div className={`${classOne}`} id="navbarResponsive">
                     <ul className="navbar-nav mr-auto">
-                        <li className="nav-item">
-                            {
-                                auth0Client.isAuthenticated() &&
-                                <div>
-                                    <label className="mr-2 text-white"></label>
-                                </div>
-                            }
-                        </li>
                         <li className="nav-item active">
-                            <Link className="nav-link" to="/">
+                            <Link className="nav-link" to="/" onClick={this.toggleNavbar}>
                                 Home
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/customers">
+                            {
+                                auth0Client.isAuthenticated() && auth0Client.hasRole(['admin']) && 
+                                <Link className="nav-link" to="/admin/dashboard/" onClick={this.toggleNavbar}>
+                                    Admin
+                                </Link>
+                            }
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/customers" onClick={this.toggleNavbar}>
                                 Customers
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/customer/add">
+                            <Link className="nav-link" to="/customer/add" onClick={this.toggleNavbar}>
                                 Add Customer
                             </Link>
                         </li>
