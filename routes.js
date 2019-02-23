@@ -147,7 +147,7 @@ router.route('/product/brand')
 
 //Get all the brands
 router.get('/product/brand', function(req, res){
-    productBrandController.getAllProductBrands(function(results){res.json(results);});
+    productBrandController.getAllProductBrands(req.query, function(results){res.json(results);});
 });
 
 //Update existing brand

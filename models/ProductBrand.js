@@ -14,11 +14,36 @@ module.exports.findOne = function(id, callback){
   });
 }
 
-module.exports.findAll = function(callback){
-  ProductBrand.find({}, function(err, result){
-    if ( err ) throw err;
-    callback(result);
-  });
+module.exports.findAll = function(reqQuery, callback){
+  var page = parseInt(reqQuery.page || 0)
+  var size = parseInt(reqQuery.size || 10)
+  
+  // Find some documents
+  ProductBrand.countDocuments({},function(err,totalCount) {
+    var query = {}
+
+    if(page < 0 || page === 0) {
+      response = {"error" : true,"message" : "invalid page number, should start with 1"};
+      callback(response);
+      return;
+    }
+    query.skip = size * (page - 1)
+    query.limit = size
+    
+    if(err) {
+      response = {"error" : true,"message" : "Error fetching data"}
+    } else {
+      ProductBrand.find({},{},query,function(err,result) {
+        // Mongo command to fetch all data from collection.
+        if(err) {
+            response = {"error" : true,"message" : "Error fetching data"};
+        } else {
+          response = {"error" : false,"result" : result,"totalCount": totalCount};
+        }
+        callback(response);
+      });
+    }
+  })
 }
 
 module.exports.addProductBrand = function(body, callback){

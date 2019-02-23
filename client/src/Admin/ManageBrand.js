@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import auth0Client from '../Auth';
+//import auth0Client from '../Auth';
 import $http from '../Utility/Http';
-import qs from 'query-string';
+//import qs from 'query-string';
+import Pagination from "react-js-pagination";
+
 class ManageBrand extends Component {
   constructor(props) {
     super(props);
@@ -10,9 +12,15 @@ class ManageBrand extends Component {
       brand: {
         name: '',
       },
-      brands: []
+      brands: [],
+      totalCount: 0,
+      page: {
+        current: 1,
+        size: 5
+      }
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -43,12 +51,14 @@ class ManageBrand extends Component {
    */
   getAllBrands() {
     this.increamentLoadingCounter();
-    $http.get("/product/brand")
+    $http.get(`/product/brand?page=${this.state.page.current}&size=${this.state.page.size}`)
     .then(({data}) => {
-      console.log(data);
-      this.setState(Object.assign(this.state, {
-          brands: data,
-      }));
+      if(!data.error) {
+        this.setState(Object.assign(this.state, {
+            brands: data.result,
+            totalCount: data.totalCount
+        }));
+      }      
     })
     .catch((reason) => {
       console.error('On Error: ' + reason);
@@ -57,7 +67,15 @@ class ManageBrand extends Component {
       this.decreamentLoadingCounter();
     }); 
   }
-
+  handlePageChange(pageNumber) {
+    this.setState(Object.assign(this.state, {
+        page: {
+          current: pageNumber,
+          size: this.state.page.size
+        }
+    }));
+    this.getAllBrands();
+  }
   /**
    * Method to get all the product brands
    */
@@ -90,22 +108,25 @@ class ManageBrand extends Component {
   handleSubmit(event) {
     event.preventDefault();
     
+    //Condition for add product
     if(this.state.brand._id === undefined) {
       $http.post("/product/brand", this.state.brand)
       .then(({data}) => {
-        if(data._id) {
-          //load brands.
+        if(data.hasOwnProperty('productBrand') && data.productBrand._id) {
+          //load brands
+          this.getAllBrands()
+          this.resetForm()
         }
       })
       .catch(reason => {
         console.error("Error:" + reason);
       });
-    } else {
+    } else {//Condition for update product
       $http.put("/product/brand", this.state.brand)
       .then(({data}) => {
-        if(data) {
-          //this.props.history.push('/admin/brands')
-          //load brands
+        if(data.hasOwnProperty('productBrand') && data.productBrand._id) {
+          this.getAllBrands();
+          this.resetForm()
         }
       })
       .catch(reason => {
@@ -127,6 +148,12 @@ class ManageBrand extends Component {
       </span> 
       </td>
     </tr>
+  }
+
+  resetForm() {
+    this.setState(Object.assign(this.state, {
+        brand: {name: ''},
+    }));
   }
 
   showConfirmModal(selectedCustomerId) {
@@ -174,6 +201,19 @@ class ManageBrand extends Component {
                 <tbody>
                   {this.state.brands.map(this.brandRow)}
                 </tbody>
+                <tfoot>
+                  { Math.ceil(this.state.totalCount/this.state.page.size) > 1 && 
+                    <div>
+                      <Pagination
+                        activePage={this.state.page.current}
+                        itemsCountPerPage={this.state.page.size}
+                        totalItemsCount={this.state.totalCount}
+                        pageRangeDisplayed={5}
+                        onChange={this.handlePageChange}
+                      />
+                    </div>
+                  }
+                </tfoot>
               </table>
             }
 

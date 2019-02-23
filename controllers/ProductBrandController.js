@@ -10,9 +10,9 @@ module.exports.getProductBrandDetails = function(params, callback){
     productBrandDao.findOne(params.id, callback);
 }
 
-module.exports.getAllProductBrands = function(callback){
+module.exports.getAllProductBrands = function(query, callback){
     console.log("Fetching all brands");
-    productBrandDao.findAll(callback);
+    productBrandDao.findAll(query, callback);
 }
 
 module.exports.updateProductBrand = function(body, id, callback){
