@@ -137,7 +137,6 @@ class ManageBrand extends Component {
 
   brandRow(brand, i) {
     return <tr key={i}>
-      <th scope="row">{i+1}</th>
       <td>{brand.name}</td>
       <td>
       <span className="icon-edit" onClick={() => this.editBrand(brand._id)}>
@@ -193,7 +192,6 @@ class ManageBrand extends Component {
                 <caption>List of Brands</caption>
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Brand Name</th>
                     <th scope="col">Actions</th>
                   </tr>
