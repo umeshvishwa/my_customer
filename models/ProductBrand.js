@@ -62,7 +62,7 @@ module.exports.addProductBrand = function(body, callback){
 }
 
 module.exports.updateProductBrand = function(body, id, callback){
-  ProductBrand.findOne({id: id}, function(err, result){
+  ProductBrand.findOne({_id: id}, function(err, result){
     if ( err ) throw err;
 
     if(!result){

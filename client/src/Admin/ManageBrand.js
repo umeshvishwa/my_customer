@@ -22,6 +22,7 @@ class ManageBrand extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.editBrand = this.editBrand.bind(this);
   }
 
   async componentDidMount() {
@@ -79,21 +80,13 @@ class ManageBrand extends Component {
   /**
    * Method to get all the product brands
    */
-  editBrand() {
-    this.increamentLoadingCounter();
-    /*$http.get("/product/brand")
-    .then(({data}) => {
-      console.log(data);
-      this.setState(Object.assign(this.state, {
-          brands: data,
-      }));
+  editBrand(brandId) {
+    this.state.brands.map((brand) => {
+      if(brand._id == brandId) {
+        let brandObj = JSON.parse(JSON.stringify(brand));
+        this.setState({ brand : brandObj })
+      }      
     })
-    .catch((reason) => {
-      console.error('On Error: ' + reason);
-    })
-    .finally(() => {
-      this.decreamentLoadingCounter();
-    });*/ 
   }
 
   handleChange(event) {
@@ -122,7 +115,7 @@ class ManageBrand extends Component {
         console.error("Error:" + reason);
       });
     } else {//Condition for update product
-      $http.put("/product/brand", this.state.brand)
+      $http.put(`/product/brand/${this.state.brand._id}`, this.state.brand)
       .then(({data}) => {
         if(data.hasOwnProperty('productBrand') && data.productBrand._id) {
           this.getAllBrands();
@@ -135,8 +128,8 @@ class ManageBrand extends Component {
     }
   }
 
-  brandRow(brand, i) {
-    return <tr key={i}>
+  brandRow() {
+    return this.state.brands.map((brand, i) => (<tr key={i}>
       <td>{brand.name}</td>
       <td>
       <span className="icon-edit" onClick={() => this.editBrand(brand._id)}>
@@ -146,13 +139,13 @@ class ManageBrand extends Component {
         <i className="fa fa-trash"></i>
       </span> 
       </td>
-    </tr>
+    </tr>))
   }
 
+
   resetForm() {
-    this.setState(Object.assign(this.state, {
-        brand: {name: ''},
-    }));
+    let brand = {name: ''};
+    this.setState({brand});
   }
 
   showConfirmModal(selectedCustomerId) {
@@ -165,7 +158,7 @@ class ManageBrand extends Component {
   render() {
     const {brand} = this.state;
     if (brand === null) return <p>Loading ...</p>;
-
+    const btnTitle = (brand._id == undefined) ? 'Add' : 'Update';
     const pageTitle = 'Manage Brands';
     return (
       <div className="container wrapper-form">
@@ -181,7 +174,8 @@ class ManageBrand extends Component {
                     name="name" placeholder="Brand Name" required="required" />
                 </div>
                 <div className="col-4 col-sm-4 mt-2 bottom-align">
-                  <input type="button" name="addBrand" className="form-control btn btn-primary" onClick={this.handleSubmit} value="Add" />
+                  <input type="button" name="addBrand" className="form-control btn btn-primary" 
+                    onClick={this.handleSubmit} value={btnTitle} />
                 </div>
               </div>
             </div>
@@ -197,7 +191,9 @@ class ManageBrand extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.brands.map(this.brandRow)}
+                  {
+                    this.brandRow()
+                  }
                 </tbody>
                 <tfoot>
                   { Math.ceil(this.state.totalCount/this.state.page.size) > 1 && 
