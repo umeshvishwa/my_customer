@@ -81,11 +81,11 @@ class ManageBrand extends Component {
    * Method to get all the product brands
    */
   editBrand(brandId) {
-    this.state.brands.map((brand) => {
-      if(brand._id == brandId) {
+    this.state.brands.forEach((brand) => {
+      if(brand._id === brandId) {
         let brandObj = JSON.parse(JSON.stringify(brand));
         this.setState({ brand : brandObj })
-      }      
+      }
     })
   }
 
@@ -158,7 +158,7 @@ class ManageBrand extends Component {
   render() {
     const {brand} = this.state;
     if (brand === null) return <p>Loading ...</p>;
-    const btnTitle = (brand._id == undefined) ? 'Add' : 'Update';
+    const btnTitle = (brand._id === undefined) ? 'Add' : 'Update';
     const pageTitle = 'Manage Brands';
     return (
       <div className="container wrapper-form">
