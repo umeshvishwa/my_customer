@@ -50,7 +50,7 @@ class Customer extends Component {
                   <div className="col-sm-12">
                     <div className="row">
                       <div className="col-12">
-                        <h2>{customer.first_name} {customer.last_name}</h2>
+                        <h2>{customer.firstName} {customer.lastName}</h2>
                       </div>
                     </div>
                     <div className="row">
@@ -68,7 +68,7 @@ class Customer extends Component {
                               {customer.line1 && <span className="label">{customer.line1}</span> }
                               {customer.line2 && <span className="label">{customer.line2}</span>}
                               {customer.city && <span className="label">{customer.city}</span>}
-                              {customer.postal_code && <span className="label"> - {customer.postal_code}</span>}
+                              {customer.postal_code && <span className="label"> - {customer.postalCode}</span>}
                               {customer.state && <span className="label">{customer.state}</span>}
                               {customer.country && <span className="label">{customer.country}</span>}
                           </p>

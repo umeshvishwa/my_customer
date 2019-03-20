@@ -8,16 +8,16 @@ class AddCustomer extends Component {
     this.state = {
       customer: {
         userId: '',
-        first_name: '',
-        last_name: '',
+        firstName: '',
+        lastName: '',
         mobile: '',
         email: '',
         line1: '',
         line2: '',
         city: '',
         state: '',
-        postal_code: '',
-        is_pc: false,
+        postalCode: '',
+        isPc: false,
         pcId: null,
         password: null,
         birthDate: '',
@@ -108,13 +108,13 @@ class AddCustomer extends Component {
             <div className="row">
               <div className="col-12 col-sm-6 col-lg-6">
                 <label>First Name:</label>
-                <input type="text" className="form-control" onChange={this.handleChange} value={customer.first_name} 
-                  name="first_name" placeholder="First Name" required="required" />
+                <input type="text" className="form-control" onChange={this.handleChange} value={customer.firstName} 
+                  name="firstName" placeholder="First Name" required="required" />
               </div>
               <div className="col-12 col-sm-6 col-lg-6">
                 <label>Last Name:</label>
-                <input type="text" className="form-control" onChange={this.handleChange} value={customer.last_name} 
-                 name="last_name" placeholder="Last Name" required="required" />
+                <input type="text" className="form-control" onChange={this.handleChange} value={customer.lastName} 
+                 name="lastName" placeholder="Last Name" required="required" />
               </div>
             </div>
             <div className="row">
@@ -156,8 +156,8 @@ class AddCustomer extends Component {
             <div className="row">
               <div className="col-12 col-sm-6 col-lg-6">
                 <label>Postal Code:</label>
-                <input type="text" className="form-control" onChange={this.handleChange} value={customer.postal_code} 
-                 name="postal_code" placeholder="Postal Code" required="required" />
+                <input type="text" className="form-control" onChange={this.handleChange} value={customer.postalCode} 
+                 name="postalCode" placeholder="Postal Code" required="required" />
               </div>
             </div>
             <div className="row">
@@ -174,17 +174,17 @@ class AddCustomer extends Component {
             </div>
             <div className="row">
               <div className="col-12 col-sm-12 col-lg-12">
-                <input type="checkbox" name="is_pc" checked={customer.is_pc} className="form-control" 
+                <input type="checkbox" name="isPc" checked={customer.isPc} className="form-control" 
                   onChange={this.handleChange} />
                 <label>Is registered as preferred customer?</label>
               </div>
             </div>
             { 
-              this.state.customer.is_pc && <div className="row">    
+              this.state.customer.isPc && <div className="row">    
                   <div className="col-12 col-sm-6 col-lg-6">
                     <label>Preferred Customer Id:</label>
-                    <input type="text" className="form-control" onChange={this.handleChange} value={customer.pc_id} 
-                     name="pc_id" placeholder="Preferred Customer ID" required="required"/>
+                    <input type="text" className="form-control" onChange={this.handleChange} value={customer.pcId} 
+                     name="pcId" placeholder="Preferred Customer ID" required="required"/>
                   </div>
                   <div className="col-12 col-sm-6 col-lg-6">
                     <label>Preferred Customer password:</label>

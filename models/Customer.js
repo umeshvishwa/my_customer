@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var customerSchema = new Schema({
   userId: String,
-  first_name: String,
-  last_name: String,
+  firstName: String,
+  lastName: String,
   mobile: Number,
   email: String,
   birthDate: String,
@@ -14,9 +14,9 @@ var customerSchema = new Schema({
   line2: String,
   city: String,
   state: String,
-  postal_code: String,  
+  postalCode: String,  
   products: [{type: Schema.Types.ObjectId, ref: 'Product'}],
-  is_pc: false,
+  isPc: false,
   pcId: Number,
   password: String,
   created: { type: Date, default: Date.now },

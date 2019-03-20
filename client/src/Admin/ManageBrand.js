@@ -81,11 +81,11 @@ class ManageBrand extends Component {
    * Method to get all the product brands
    */
   editBrand(brandId) {
-    this.state.brands.map((brand) => {
+    this.state.brands.forEach((brand) => {
       if(brand._id === brandId) {
         let brandObj = JSON.parse(JSON.stringify(brand));
         this.setState({ brand : brandObj })
-      }      
+      }
     })
   }
 
