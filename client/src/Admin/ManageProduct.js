@@ -4,15 +4,19 @@ import $http from '../Utility/Http';
 //import qs from 'query-string';
 import Pagination from "react-js-pagination";
 
-class ManageBrand extends Component {
+class ManageProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: 0,
-      brand: {
+      product: {
         name: '',
+        category: '',
+        brand: ''
       },
+      products: [],
       brands: [],
+      categories: [],
       totalCount: 0,
       page: {
         current: 1,
@@ -22,13 +26,13 @@ class ManageBrand extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.editBrand = this.editBrand.bind(this);
+    this.editProduct = this.editProduct.bind(this);
   }
 
   async componentDidMount() {
-    let {brand} = this.state;
-    this.setState({ brand })
-    this.getAllBrands();
+    let {product} = this.state;
+    this.setState({ product })
+    this.getAllProducts();
   }
 
   /**
@@ -48,15 +52,15 @@ class ManageBrand extends Component {
   }
 
   /**
-   * Method to get all the product brands
+   * Method to get all the product categories
    */
-  getAllBrands() {
+  getAllProducts() {
     this.increamentLoadingCounter();
-    $http.get(`/product/brand?page=${this.state.page.current}&size=${this.state.page.size}`)
+    $http.get(`/product?page=${this.state.page.current}&size=${this.state.page.size}`)
     .then(({data}) => {
       if(!data.error) {
         this.setState(Object.assign(this.state, {
-            brands: data.result,
+            products: data.result,
             totalCount: data.totalCount
         }));
       }      
@@ -75,16 +79,16 @@ class ManageBrand extends Component {
           size: this.state.page.size
         }
     }));
-    this.getAllBrands();
+    this.getAllProducts();
   }
   /**
-   * Method to get all the product brands
+   * Method to get all the product categories
    */
-  editBrand(brandId) {
-    this.state.brands.map((brand) => {
-      if(brand._id === brandId) {
-        let brandObj = JSON.parse(JSON.stringify(brand));
-        this.setState({ brand : brandObj })
+  editProduct(productId) {
+    this.state.categories.map((product) => {
+      if(product._id === productId) {
+        let productObj = JSON.parse(JSON.stringify(product));
+        this.setState({ product : productObj })
       }      
     })
   }
@@ -93,21 +97,21 @@ class ManageBrand extends Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    let {brand} = this.state;
-    brand[name] = value;
+    let {product} = this.state;
+    product[name] = value;
     
-    this.setState({ brand })
+    this.setState({ product })
   }
   handleSubmit(event) {
     event.preventDefault();
     
     //Condition for add product
-    if(this.state.brand._id === undefined) {
-      $http.post("/product/brand", this.state.brand)
+    if(this.state.product._id === undefined) {
+      $http.post("/product", this.state.product)
       .then(({data}) => {
-        if(data.hasOwnProperty('productBrand') && data.productBrand._id) {
-          //load brands
-          this.getAllBrands()
+        if(data.hasOwnProperty('product') && data.product._id) {
+          //load categories
+          this.getAllProducts()
           this.resetForm()
         }
       })
@@ -115,10 +119,10 @@ class ManageBrand extends Component {
         console.error("Error:" + reason);
       });
     } else {//Condition for update product
-      $http.put(`/product/brand/${this.state.brand._id}`, this.state.brand)
+      $http.put(`/product/${this.state.product._id}`, this.state.product)
       .then(({data}) => {
-        if(data.hasOwnProperty('productBrand') && data.productBrand._id) {
-          this.getAllBrands();
+        if(data.hasOwnProperty('product') && data.product._id) {
+          this.getAllProducts();
           this.resetForm()
         }
       })
@@ -128,14 +132,16 @@ class ManageBrand extends Component {
     }
   }
 
-  brandRow() {
-    return this.state.brands.map((brand, i) => (<tr key={i}>
-      <td>{brand.name}</td>
+  productRow() {
+    return this.state.categories.map((product, i) => (<tr key={i}>
+      <td>{product.name}</td>
+      <td>{product.name}</td>
+      <td>{product.name}</td>
       <td>
-      <span className="icon-edit" onClick={() => this.editBrand(brand._id)}>
+      <span className="icon-edit" onClick={() => this.editProduct(product._id)}>
         <i className="fa fa-edit"></i>
       </span> 
-      <span className="icon-trash" onClick={() => this.showConfirmModal(brand._id)}>
+      <span className="icon-trash" onClick={() => this.showConfirmModal(product._id)}>
         <i className="fa fa-trash"></i>
       </span> 
       </td>
@@ -144,8 +150,8 @@ class ManageBrand extends Component {
 
 
   resetForm() {
-    let brand = {name: ''};
-    this.setState({brand});
+    let product = {name: ''};
+    this.setState({product});
   }
 
   showConfirmModal(selectedCustomerId) {
@@ -156,10 +162,10 @@ class ManageBrand extends Component {
   }
 
   render() {
-    const {brand} = this.state;
-    if (brand === null) return <p>Loading ...</p>;
-    const btnTitle = (brand._id === undefined) ? 'Add' : 'Update';
-    const pageTitle = 'Manage Brands';
+    const {product} = this.state;
+    if (product === null) return <p>Loading ...</p>;
+    const btnTitle = (product._id === undefined) ? 'Add' : 'Update';
+    const pageTitle = 'Manage Products';
     return (
       <div className="container wrapper-form">
         <form onSubmit={this.handleSubmit}>
@@ -169,30 +175,32 @@ class ManageBrand extends Component {
             <div className="row">
               <div className="col-12 col-sm-6">
                 <div className="col-8 col-sm-8">
-                  <label>Brand Name:</label>
-                  <input type="text" className="form-control" onChange={this.handleChange} value={brand.name} 
-                    name="name" placeholder="Brand Name" required="required" />
+                  <label>Product Name:</label>
+                  <input type="text" className="form-control" onChange={this.handleChange} value={product.name} 
+                    name="name" placeholder="Product Name" required="required" />
                 </div>
                 <div className="col-4 col-sm-4 mt-2 bottom-align">
-                  <input type="button" name="addBrand" className="form-control btn btn-primary" 
+                  <input type="button" name="addProduct" className="form-control btn btn-primary" 
                     onClick={this.handleSubmit} value={btnTitle} />
                 </div>
               </div>
             </div>
             
             { 
-              this.state.brands && 
+              this.state.categories && 
               <table className="table mt-4">
-                <caption>List of Brands</caption>
+                <caption>List of Categories</caption>
                 <thead>
                   <tr>
-                    <th scope="col">Brand Name</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Brand</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    this.brandRow()
+                    this.productRow()
                   }
                 </tbody>
                 <tfoot>
@@ -218,4 +226,4 @@ class ManageBrand extends Component {
   }
 }
 
-export default ManageBrand;
+export default ManageProduct;

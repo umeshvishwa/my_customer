@@ -16,6 +16,8 @@ import AddCustomerFamily from './Customer/AddCustomerFamily';
 
 import AdminDashboard from './Admin/Dashboard';
 import ManageBrand from './Admin/ManageBrand';
+import ManageCategory from './Admin/ManageCategory';
+import ManageProduct from './Admin/ManageProduct';
 
 class App extends Component {
 
@@ -53,7 +55,9 @@ class App extends Component {
         
         <SecuredAdminRoute exact path='/admin/dashboard' component={AdminDashboard} checkingSession={this.state.checkingSession}/>
         <SecuredAdminRoute exact path='/admin/brand/manage' component={ManageBrand} checkingSession={this.state.checkingSession}/>
-        
+        <SecuredAdminRoute exact path='/admin/category/manage' component={ManageCategory} checkingSession={this.state.checkingSession}/>
+        <SecuredAdminRoute exact path='/admin/product/manage' component={ManageProduct} checkingSession={this.state.checkingSession}/>
+
         <Route exact path='/callback' component={Callback}/>
         <Route exact path='/error/403' component={AccessDenied}/>
       </div>

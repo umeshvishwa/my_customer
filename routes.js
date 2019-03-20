@@ -6,6 +6,8 @@ const jwksRsa = require('jwks-rsa');
 var Customer = require('./models/Customer');
 var familyMemberController = require("./controllers/FamilyMemberController");
 var productBrandController = require("./controllers/ProductBrandController");
+var productCategoryController = require("./controllers/ProductCategoryController");
+var productController = require("./controllers/ProductController");
 var Address = require('./models/Address');
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
@@ -164,5 +166,71 @@ router.delete('/product/brand/:id', function(req, res){
         res.json(results);
     });
 });
+
+
+
+/**
+ * Routes for managing product category
+ */
+//Add new product category
+router.route('/product/category')
+.post(function(req,res) {
+    productCategoryController.addProductCategory(req.body, function(results) {
+        res.json(results);
+    });
+})
+
+//Get all the category
+router.get('/product/category', function(req, res){
+    productCategoryController.getAllProductCategory(req.query, function(results){res.json(results);});
+});
+
+//Update existing category
+router.route('/product/category/:id')
+.put(function(req, res){
+    productCategoryController.updateProductCategory(req.body, req.params.id, function(results){
+        res.json(results);
+    });
+});
+
+//Delete existing category
+router.delete('/product/category/:id', function(req, res){
+    productCategoryController.deleteProductCategory(req.params.id, function(results){
+        res.json(results);
+    });
+});
+
+
+/**
+ * Routes for managing products
+ */
+//Add new product
+router.route('/product')
+.post(function(req,res) {
+    productController.addProduct(req.body, function(results) {
+        res.json(results);
+    });
+})
+
+//Get all the products
+router.get('/products', function(req, res){
+    productController.getAllProducts(req.query, function(results){res.json(results);});
+});
+
+//Update existing category
+router.route('/product/:id')
+.put(function(req, res){
+    productController.updateProduct(req.body, req.params.id, function(results){
+        res.json(results);
+    });
+});
+
+//Delete existing
+router.delete('/product/:id', function(req, res){
+    productController.deleteProduct(req.params.id, function(results){
+        res.json(results);
+    });
+});
+
 
 module.exports = router;
