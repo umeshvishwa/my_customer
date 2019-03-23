@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import $http from '../Utility/Http';
 //import qs from 'query-string';
 import Pagination from "react-js-pagination";
+import BrandSelectBox from '../Custom/SelectBox'
 
 class ManageProduct extends Component {
   constructor(props) {
@@ -15,7 +16,9 @@ class ManageProduct extends Component {
         brand: ''
       },
       products: [],
-      brands: [],
+      brands: [
+        {text: 'Satinique', value:'Satinique'}
+      ],
       categories: [],
       totalCount: 0,
       page: {
@@ -173,15 +176,28 @@ class ManageProduct extends Component {
           <h2>{pageTitle}</h2>
           <div className="form-group">
             <div className="row">
-              <div className="col-12 col-sm-6">
-                <div className="col-8 col-sm-8">
-                  <label>Product Name:</label>
-                  <input type="text" className="form-control" onChange={this.handleChange} value={product.name} 
-                    name="name" placeholder="Product Name" required="required" />
+              <div className="col-12 col-sm-6 col-lg-12">
+                <div className="row">
+                  <div className="col-8 col-sm-8 col-lg-3">
+                    <label>Product Name:</label>
+                    <input type="text" className="form-control" onChange={this.handleChange} value={product.name} 
+                      name="name" placeholder="Product Name" required="required" />
+                  </div>
+                  <div className="col-8 col-sm-8 col-lg-3">
+                    <label>Product Category:</label>
+                    <input type="text" className="form-control" onChange={this.handleChange} value={product.name} 
+                      name="name" placeholder="Product Name" required="required" />
+                  </div>
+                  <div className="col-8 col-sm-8 col-lg-3">
+                    <label>Product Brand:</label>
+                    <BrandSelectBox list={this.state.brands} />
+                  </div>                  
                 </div>
-                <div className="col-4 col-sm-4 mt-2 bottom-align">
-                  <input type="button" name="addProduct" className="form-control btn btn-primary" 
-                    onClick={this.handleSubmit} value={btnTitle} />
+                <div className="row">
+                  <div className="col-4 col-sm-4 mt-2 bottom-align col-lg-3">
+                    <input type="button" name="addProduct" className="form-control btn btn-primary" 
+                      onClick={this.handleSubmit} value={btnTitle} />
+                  </div>  
                 </div>
               </div>
             </div>
