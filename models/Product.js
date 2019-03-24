@@ -48,12 +48,14 @@ module.exports.findAll = function(reqQuery, callback){
 }
 
 module.exports.addProduct = function(body, callback){
-  var Product = new Product({
-    name:body.name
+  var product = new Product({
+    name:body.name,
+    category: body.category,
+    brand: body.brand
   });
 
   //Saving the model instance to the DB
-  Product.save(function(err, result){
+  product.save(function(err, result){
     if ( err ) throw err;
     callback({
       messaage:"Successfully added a product.",

@@ -46,6 +46,19 @@ module.exports.findAll = function(reqQuery, callback){
   })
 }
 
+module.exports.findAllBrands = function(reqQuery, callback){
+  
+  ProductBrand.find({},{},function(err,result) {
+    // Mongo command to fetch all data from collection.
+    if(err) {
+        response = {"error" : true,"message" : "Error fetching data"};
+    } else {
+      response = {"error" : false,"result" : result};
+    }
+    callback(response);
+  });
+}
+
 module.exports.addProductBrand = function(body, callback){
   var productBrand = new ProductBrand({
     name:body.name

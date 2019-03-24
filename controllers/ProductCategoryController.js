@@ -15,11 +15,16 @@ module.exports.getAllProductCategory = function(query, callback){
     productCategoryDao.findAll(query, callback);
 }
 
+module.exports.getAllProductCategoryWithoutPagination = function(query, callback){
+    console.log("Fetching all category");
+    productCategoryDao.findAllCategories(query, callback);
+}
+
 module.exports.updateProductCategory = function(body, id, callback){
     console.log("Editing Category");
     productCategoryDao.updateProductCategory(body, id, callback);
 }
-module.exports.deleteProductCategory = function(isbn, callback){
+module.exports.deleteProductCategory = function(id, callback){
     console.log("Deleting category");
     productCategoryDao.deleteProductCategory(id, callback);
 }

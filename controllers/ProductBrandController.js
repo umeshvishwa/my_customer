@@ -15,6 +15,11 @@ module.exports.getAllProductBrands = function(query, callback){
     productBrandDao.findAll(query, callback);
 }
 
+module.exports.getAllProductBrandsWithoutPagination = function(query, callback){
+    console.log("Fetching all brands");
+    productBrandDao.findAllBrands(query, callback);
+}
+
 module.exports.updateProductBrand = function(body, id, callback){
     console.log("Editing Brand");
     productBrandDao.updateProductBrand(body, id, callback);

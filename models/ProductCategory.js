@@ -45,6 +45,23 @@ module.exports.findAll = function(reqQuery, callback){
   })
 }
 
+/**
+ * Get all list of category without pagination
+ */
+module.exports.findAllCategories = function(query, callback){
+  
+  // Find some documents
+  ProductCategory.find({},{},function(err,result) {
+    // Mongo command to fetch all data from collection.
+    if(err) {
+        response = {"error" : true,"message" : "Error fetching data"};
+    } else {
+      response = {"error" : false,"result" : result};
+    }
+    callback(response);
+  });
+}
+
 module.exports.addProductCategory = function(body, callback){
   var productCategory = new ProductCategory({
     name:body.name

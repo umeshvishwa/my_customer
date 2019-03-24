@@ -10,7 +10,7 @@ module.exports.getProductDetails = function(params, callback){
     productDao.findOne(params.id, callback);
 }
 
-module.exports.getAllProduct = function(query, callback){
+module.exports.getAllProducts = function(query, callback){
     console.log("Fetching all products");
     productDao.findAll(query, callback);
 }

@@ -152,6 +152,11 @@ router.get('/product/brand', function(req, res){
     productBrandController.getAllProductBrands(req.query, function(results){res.json(results);});
 });
 
+//Get all the brands without pagination
+router.get('/product/brands/all', function(req, res){
+    productBrandController.getAllProductBrandsWithoutPagination(req.query, function(results){res.json(results);});
+});
+
 //Update existing brand
 router.route('/product/brand/:id')
 .put(function(req, res){
@@ -183,6 +188,13 @@ router.route('/product/category')
 //Get all the category
 router.get('/product/category', function(req, res){
     productCategoryController.getAllProductCategory(req.query, function(results){res.json(results);});
+});
+
+//Get all the category
+router.get('/product/category/all', function(req, res){
+    productCategoryController.getAllProductCategoryWithoutPagination(req.query, function(results){
+        res.json(results);
+    });
 });
 
 //Update existing category

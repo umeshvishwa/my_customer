@@ -81,7 +81,7 @@ class ManageCategory extends Component {
    * Method to get all the product categories
    */
   editCategory(categoryId) {
-    this.state.categories.map((category) => {
+    this.state.categories.forEach((category) => {
       if(category._id === categoryId) {
         let categoryObj = JSON.parse(JSON.stringify(category));
         this.setState({ category : categoryObj })
