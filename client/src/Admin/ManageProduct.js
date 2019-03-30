@@ -1,19 +1,22 @@
 import React, {Component} from 'react';
 //import auth0Client from '../Auth';
 import $http from '../Utility/Http';
-//import qs from 'query-string';
+import Loader from 'react-loader-spinner';
 import Pagination from "react-js-pagination";
 import SelectBox from '../Custom/SelectBox'
+import ConfirmModal from '../Custom/ConfirmModal'
 
 class ManageProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: 0,
+      isModalDisplay: false,
+      selectedProductIdToDelete: null,
       product: {
         name: '',
-        category: '',
-        brand: ''
+        category: {_id: ''},
+        brand: {_id:''}
       },
       products: [],
       brands: [],
@@ -30,6 +33,8 @@ class ManageProduct extends Component {
     this.editProduct = this.editProduct.bind(this);
     this.onBrandChange = this.onBrandChange.bind(this);
     this.onCategoryChange = this.onCategoryChange.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
+    this.handleModalButton = this.handleModalButton.bind(this);
   }
 
   async componentDidMount() {
@@ -127,31 +132,19 @@ class ManageProduct extends Component {
     })
     .finally(() => {
       this.decreamentLoadingCounter();
-      console.log(this.state)
     }); 
   }
 
   onBrandChange(selectedBrand) {
     let {product} = this.state;
-    product.brand = `${selectedBrand.value}`;
+    product.brand._id = `${selectedBrand.value}`;
     this.setState({ product })
-    /*this.setState(Object.assign(this.state, {
-      product: {
-        brand: `${selectedBrand.value}`
-      }
-    }));*/
   }
 
   onCategoryChange(selectedCategory) {
-    console.log(this.state)
     let {product} = this.state;
-    product.category = `${selectedCategory.value}`;
+    product.category._id = `${selectedCategory.value}`;
     this.setState({ product })
-    /*this.setState(Object.assign(this.state, {
-      product: {
-        category: `${selectedCategory.value}`
-      }
-    }));*/
   }
 
   handlePageChange(pageNumber) {
@@ -167,7 +160,7 @@ class ManageProduct extends Component {
    * Method to get all the product categories
    */
   editProduct(productId) {
-    this.state.categories.forEach((product) => {
+    this.state.products.forEach((product) => {
       if(product._id === productId) {
         let productObj = JSON.parse(JSON.stringify(product));
         this.setState({ product : productObj })
@@ -217,8 +210,8 @@ class ManageProduct extends Component {
   productRow() {
     return this.state.products.map((product, i) => (<tr key={i}>
       <td>{product.name}</td>
-      <td>{product.name}</td>
-      <td>{product.name}</td>
+      <td>{product.category.name}</td>
+      <td>{product.brand.name}</td>
       <td>
       <span className="icon-edit" onClick={() => this.editProduct(product._id)}>
         <i className="fa fa-edit"></i>
@@ -232,24 +225,66 @@ class ManageProduct extends Component {
 
 
   resetForm() {
-    let product = {name: '', brand: '', category: ''};
+    let product = {name: '', brand: {_id:''}, category: {_id:''}};
     this.setState({product});
   }
 
-  showConfirmModal(selectedCustomerId) {
-    /*this.setStateValue({
+  showConfirmModal(productId) {
+    this.setState({
       isModalDisplay: true,
-      selectedCustomerId: selectedCustomerId
-    });*/
+      selectedProductIdToDelete: productId,
+    });
   }
 
+  handleModalButton(isConfirmed) {
+    if(isConfirmed) {
+      this.handleRemove(this.state.selectedProductIdToDelete);
+    } 
+    
+    //Hide modal window
+    this.setState({
+      isModalDisplay: false
+    });
+  }
+
+  /**
+   * 
+   * @param {selected product id to remove} pid 
+   */
+  handleRemove(pid) {
+    this.increamentLoadingCounter();
+    $http.delete(`/product/${pid}`)
+    .then(() => {
+      this.getAllProducts();
+    })
+    .catch(reason => {
+      console.error("Error:" + reason);
+    })
+    .finally(() => {
+      this.decreamentLoadingCounter();
+    });
+  }
+  
   render() {
     const {product} = this.state;
     if (product === null) return <p>Loading ...</p>;
+    let styleDisplay = (this.state.loading > 0) ? {display: 'block'} : {display: 'none'};
     const btnTitle = (product._id === undefined) ? 'Add' : 'Update';
     const pageTitle = 'Manage Products';
     return (
       <div className="container wrapper-form">
+        <div className="loader" style={styleDisplay}>
+          <Loader width="20" height="20"/>
+        </div>
+
+        <ConfirmModal show={this.state.isModalDisplay}
+          title="Are you sure? "
+          body="Customer will be removed parmanently. Do you still want to remove this customer?"
+          actionButton="Yes"
+          closeButton="No" 
+          onButtonClick={this.handleModalButton} 
+        />
+        
         <form onSubmit={this.handleSubmit}>
           <input type="hidden" name="userId" value=""></input>
           <h2>{pageTitle}</h2>
@@ -264,11 +299,11 @@ class ManageProduct extends Component {
                   </div>
                   <div className="col-8 col-sm-8 col-lg-3">
                     <label>Product Category:</label>
-                    <SelectBox list={this.state.categories} onChange={this.onCategoryChange}/>
+                    <SelectBox list={this.state.categories} onChange={this.onCategoryChange} value={product.category._id}/>
                   </div>
                   <div className="col-8 col-sm-8 col-lg-3">
                     <label>Product Brand:</label>
-                    <SelectBox list={this.state.brands} onChange={this.onBrandChange}/>
+                    <SelectBox list={this.state.brands} onChange={this.onBrandChange} value={product.brand._id} />
                   </div>                  
                 </div>
                 <div className="row">

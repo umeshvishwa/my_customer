@@ -9,6 +9,14 @@ class SelectBox extends Component {
   }
 
   /**
+   * Method to be called when props changed
+   */
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.value !== this.props.value) {
+      this.setState({selectValue: nextProps.value})
+    }
+  }
+  /**
    * Method to increment loading counter to display loader
    */
   increamentLoadingCounter() {

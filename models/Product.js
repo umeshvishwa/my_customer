@@ -34,7 +34,12 @@ module.exports.findAll = function(reqQuery, callback){
     if(err) {
       response = {"error" : true,"message" : "Error fetching data"}
     } else {
-      Product.find({},{},query,function(err,result) {
+      Product.find({})
+      .skip(query.skip)
+      .limit(query.limit)
+      .populate('brand')
+      .populate('category')
+      .exec(function(err,result) {
         // Mongo command to fetch all data from collection.
         if(err) {
             response = {"error" : true,"message" : "Error fetching data"};
@@ -50,8 +55,8 @@ module.exports.findAll = function(reqQuery, callback){
 module.exports.addProduct = function(body, callback){
   var product = new Product({
     name:body.name,
-    category: body.category,
-    brand: body.brand
+    category: body.category._id,
+    brand: body.brand._id
   });
 
   //Saving the model instance to the DB
@@ -75,7 +80,9 @@ module.exports.updateProduct = function(body, id, callback){
     }
 
     result.name   = body.name;
-    
+    result.brand   = body.brand._id;
+    result.category   = body.category._id;
+
     result.save(function(err, result){
       if ( err ) throw err;
       callback({
@@ -85,4 +92,16 @@ module.exports.updateProduct = function(body, id, callback){
     });
 
   });
+}
+
+module.exports.deleteProduct = function(id, callback){
+  Product.findOne({_id: id}).remove().exec(function(err, product) {
+    if ( err ) throw err;
+
+    callback({
+      messaage: 'Product successfully removed!',
+      product
+    });
+    
+  })
 }

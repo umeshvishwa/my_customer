@@ -19,7 +19,7 @@ module.exports.updateProduct = function(body, id, callback){
     console.log("Editing product");
     productDao.updateProduct(body, id, callback);
 }
-module.exports.deleteProduct = function(isbn, callback){
+module.exports.deleteProduct = function(id, callback){
     console.log("Deleting product");
     productDao.deleteProduct(id, callback);
 }
