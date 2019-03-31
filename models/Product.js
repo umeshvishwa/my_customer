@@ -52,6 +52,26 @@ module.exports.findAll = function(reqQuery, callback){
   })
 }
 
+/**
+ * Get all list of category without pagination
+ */
+module.exports.findAllProducts = function(query, callback){
+  
+  // Find some documents
+  Product.find()
+  .populate('brand')
+  .populate('category')
+  .exec(function(err,result) {
+    // Mongo command to fetch all data from collection.
+    if(err) {
+        response = {"error" : true,"message" : "Error fetching data"};
+    } else {
+      response = {"error" : false,"result" : result};
+    }
+    callback(response);
+  });
+}
+
 module.exports.addProduct = function(body, callback){
   var product = new Product({
     name:body.name,

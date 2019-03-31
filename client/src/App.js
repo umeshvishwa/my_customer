@@ -13,6 +13,7 @@ import Customers from './Customers/Customers';
 import AddCustomer from './Customer/AddCustomer';
 import Customer from './Customer/Customer';
 import AddCustomerFamily from './Customer/AddCustomerFamily';
+import AddCustomerProduct from './Customer/AddCustomerProduct';
 
 import AdminDashboard from './Admin/Dashboard';
 import ManageBrand from './Admin/ManageBrand';
@@ -52,6 +53,7 @@ class App extends Component {
         <SecuredRoute exact path='/customer/add' component={AddCustomer} checkingSession={this.state.checkingSession}/>
         <SecuredRoute exact path='/customer/view' component={Customer} checkingSession={this.state.checkingSession}/>
         <SecuredRoute exact path='/customer/family/add' component={AddCustomerFamily} checkingSession={this.state.checkingSession}/>
+        <SecuredRoute exact path='/customer/product/add/:cid' component={AddCustomerProduct} checkingSession={this.state.checkingSession}/>
         
         <SecuredAdminRoute exact path='/admin/dashboard' component={AdminDashboard} checkingSession={this.state.checkingSession}/>
         <SecuredAdminRoute exact path='/admin/brand/manage' component={ManageBrand} checkingSession={this.state.checkingSession}/>

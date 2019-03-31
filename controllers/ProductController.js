@@ -15,6 +15,11 @@ module.exports.getAllProducts = function(query, callback){
     productDao.findAll(query, callback);
 }
 
+module.exports.getAllProductsWithoutPagination = function(query, callback){
+    console.log("Fetching all products without pagination");
+    productDao.findAllProducts(query, callback);
+}
+
 module.exports.updateProduct = function(body, id, callback){
     console.log("Editing product");
     productDao.updateProduct(body, id, callback);

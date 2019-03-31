@@ -229,6 +229,13 @@ router.get('/products', function(req, res){
     productController.getAllProducts(req.query, function(results){res.json(results);});
 });
 
+//Get all the products without pagination
+router.get('/products/all', function(req, res){
+    productController.getAllProductsWithoutPagination(req.query, function(results){
+        res.json(results);
+    });
+});
+
 //Update existing category
 router.route('/product/:id')
 .put(function(req, res){

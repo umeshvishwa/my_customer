@@ -31,7 +31,7 @@ class Customer extends Component {
     .catch((error) => {
       console.log(error);
     });
-    //).data;  
+    //).data;
   }
 
   getAge(birthDate) {
@@ -84,7 +84,8 @@ class Customer extends Component {
                       <div className="col-xs-12 col-sm-4 emphasis">
                           <h2><strong> 20,7K </strong></h2>                    
                           <p><small>Followers</small></p>
-                          <button className="btn btn-success btn-block">
+                          <button className="btn btn-success btn-block" 
+                            onClick={() => {this.props.history.push(`/customer/product/add/${customer._id}`)}}>
                             <span className="fa fa-plus-circle"></span> Add Product 
                           </button>
                       </div>
