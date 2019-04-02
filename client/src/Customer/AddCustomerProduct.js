@@ -8,20 +8,22 @@ class AddCustomerProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: 0,
       feedback: {
-        deliveryDate: Date,
-        offerGiven: String,
-        firstCall: Date,
-        secondCall: Date,
+        deliveryDate: '',
+        offerGiven: '',
+        firstCall: '',
+        secondCall: '',
         serviceRating: 0,
         productRating: 0,
-        referenceGiven: String,
-        remarks: String,
+        referenceGiven: '',
+        remarks: '',
         product: {_id:''},
         customer: {_id: ''}
       },
       products: [],
     };
+    this.onProductChange = this.onProductChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -104,36 +106,36 @@ class AddCustomerProduct extends Component {
     let {feedback} = this.state;
     feedback.product._id = `${selectedProduct.value}`;
     this.setState({ feedback })
-    console.log(this.state)
   }
 
   handleChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    let {customer} = this.state;
-    customer[name] = value;
+    let {feedback} = this.state;
+    feedback[name] = value;
     
-    this.setState({ customer })
+    this.setState({ feedback })
   }
   handleSubmit(event) {
     event.preventDefault();
-    
-    if(this.state.customer._id === undefined) {
-      $http.post("/customer/add", this.state.customer)
+    let customer = this.state;
+
+    if(this.state.feedback._id === undefined) {
+      $http.post("/feedback/add", this.state.feedback)
       .then(({data}) => {
         if(data._id) {
-          this.props.history.push('/customers')
+          this.props.history.push(`/customer/view?id=${customer._id}&user=${customer.userId}`)
         }
       })
       .catch(reason => {
         console.error("Error:" + reason);
       });
     } else {
-      $http.post("/customer/update", this.state.customer)
+      $http.post("/feedback/update", this.state.feedback)
       .then(({data}) => {
         if(data) {
-          this.props.history.push('/customers')
+          this.props.history.push(`/customer/view?id=${customer._id}&user=${customer.userId}`)
         }
       })
       .catch(reason => {
