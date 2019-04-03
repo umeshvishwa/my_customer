@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import auth0Client from '../Auth';
 import $http from '../Utility/Http';
 import qs from 'query-string';
@@ -134,6 +135,7 @@ class AddCustomerProduct extends Component {
     } else {
       $http.post("/feedback/update", this.state.feedback)
       .then(({data}) => {
+        console.log(data)
         if(data) {
           this.props.history.push(`/customer/view?id=${customer._id}&user=${customer.userId}`)
         }
@@ -151,8 +153,14 @@ class AddCustomerProduct extends Component {
     if (customer === undefined) return <p>Loading ...</p>;
 
     const pageTitle = (queryParams.id === undefined) ? 'Add Product' : 'Edit Product';
+    const backLink = `/customer/view?id=${customer._id}&user=${customer.userId}`;
     return (
       <div className="container wrapper-form">
+        <div className="col-xs-12 col-sm-4 col-lg-3 mt-2">
+          <Link to={backLink} className="btn btn-primary btn-lg col-12">
+              {customer.firstName} {customer.lastName}
+          </Link>
+        </div>
         <form onSubmit={this.handleSubmit}>
           <input type="hidden" name="userId" value=""></input>
           <h2>{pageTitle}</h2>

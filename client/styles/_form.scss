@@ -83,4 +83,10 @@
 }	
 .wrapper-form form a:hover{
     text-decoration: underline;
-}  
+}
+
+@media (max-width: 480px) {
+    .wrapper-form {
+        padding: 0;
+    }
+}

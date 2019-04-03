@@ -8,6 +8,7 @@ var familyMemberController = require("./controllers/FamilyMemberController");
 var productBrandController = require("./controllers/ProductBrandController");
 var productCategoryController = require("./controllers/ProductCategoryController");
 var productController = require("./controllers/ProductController");
+var feedbackController = require("./controllers/FeedbackController");
 var Address = require('./models/Address');
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
@@ -247,6 +248,45 @@ router.route('/product/:id')
 //Delete existing
 router.delete('/product/:id', function(req, res){
     productController.deleteProduct(req.params.id, function(results){
+        res.json(results);
+    });
+});
+
+
+/**
+ * Routes for managing feedbacks
+ */
+//Add new feedback
+router.route('/feedback/add')
+.post(function(req,res) {
+    feedbackController.addFeedback(req.body, function(results) {
+        res.json(results);
+    });
+})
+
+//Get all the feedbacks
+router.get('/feedbacks', function(req, res){
+    feedbackController.getAllFeedbacks(req.query, function(results){res.json(results);});
+});
+
+//Get all the feedbacks without pagination
+router.get('/feedbacks/all', function(req, res){
+    feedbackController.getAllFeedbacksWithoutPagination(req.query, function(results){
+        res.json(results);
+    });
+});
+
+//Update existing category
+router.route('/feedback/:id')
+.put(function(req, res){
+    feedbackController.updateFeedback(req.body, req.params.id, function(results){
+        res.json(results);
+    });
+});
+
+//Delete existing
+router.delete('/feedback/:id', function(req, res){
+    feedbackController.deleteFeedback(req.params.id, function(results){
         res.json(results);
     });
 });

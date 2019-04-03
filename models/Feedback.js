@@ -13,4 +13,136 @@ var feedbackSchema = new Schema({
   product: {type: Schema.Types.ObjectId, ref: 'Product'},
   customer: {type: Schema.Types.ObjectId, ref: 'Customer'}
 });
-module.exports = mongoose.model('Feedback', feedbackSchema);
+
+var Feedback = mongoose.model('Feedback', feedbackSchema);
+
+module.exports.findOne = function(id, callback){
+  Feedback.findOne({id: id}, function(err, result){
+    if ( err ) throw err;
+    callback(result);
+  });
+}
+
+module.exports.findAll = function(reqQuery, callback){
+  var page = parseInt(reqQuery.page || 0)
+  var size = parseInt(reqQuery.size || 10)
+  
+  // Find some documents
+  Feedback.countDocuments({},function(err,totalCount) {
+    var query = {}
+
+    if(page < 0 || page === 0) {
+      response = {"error" : true,"message" : "invalid page number, should start with 1"};
+      callback(response);
+      return;
+    }
+    query.skip = size * (page - 1)
+    query.limit = size
+    
+    if(err) {
+      response = {"error" : true,"message" : "Error fetching data"}
+    } else {
+      Feedback.find({})
+      .skip(query.skip)
+      .limit(query.limit)
+      .populate('product')
+      .populate('customer')
+      .exec(function(err,result) {
+        // Mongo command to fetch all data from collection.
+        if(err) {
+            response = {"error" : true,"message" : "Error fetching data"};
+        } else {
+          response = {"error" : false,"result" : result,"totalCount": totalCount};
+        }
+        callback(response);
+      });
+    }
+  })
+}
+
+/**
+ * Get all list of category without pagination
+ */
+module.exports.findAllFeedbacks = function(query, callback){
+  
+  // Find some documents
+  Feedback.find()
+  .populate('product')
+  .populate('customer')
+  .exec(function(err,result) {
+    // Mongo command to fetch all data from collection.
+    if(err) {
+        response = {"error" : true,"message" : "Error fetching data"};
+    } else {
+      response = {"error" : false,"result" : result};
+    }
+    callback(response);
+  });
+}
+
+module.exports.addFeedback = function(body, callback){
+  var feedback = new Feedback({
+    deliveryDate: body.deliveryDate,
+    offerGiven: body.offerGiven,
+    firstCall: body.firstCall,
+    secondCall: body.secondCall,
+    serviceRating: body.serviceRating,
+    productRating: body.productRating,
+    referenceGiven: body.referenceGiven,
+    remarks: body.remarks,
+    product: body.product._id,
+    customer: body.customer._id
+  });
+
+  //Saving the model instance to the DB
+  feedback.save(function(err, result){
+    if ( err ) throw err;
+    callback({
+      messaage:"Successfully added a feedback.",
+      feedback:result
+    });
+  });
+}
+
+module.exports.updateFeedback = function(body, id, callback){
+  Feedback.findOne({_id: id}, function(err, result){
+    if ( err ) throw err;
+
+    if(!result){
+      callback({
+        message:"Feedback with ID: " + id+" not found.",
+      });
+    }
+
+    result.deliveryDate = body.deliveryDate;
+    result.offerGiven = body.offerGiven;
+    result.firstCall = body.firstCall;
+    result.secondCall = body.secondCall;
+    result.serviceRating = body.serviceRating;
+    result.productRating = body.productRating;
+    result.referenceGiven = body.referenceGiven;
+    result.remarks = body.remarks;
+    result.product = body.product._id;
+
+    result.save(function(err, result){
+      if ( err ) throw err;
+      callback({
+        message:"Successfully updated the feedback",
+        feedback: result
+      });
+    });
+
+  });
+}
+
+module.exports.deleteFeedback = function(id, callback){
+  Feedback.findOne({_id: id}).remove().exec(function(err, feedback) {
+    if ( err ) throw err;
+
+    callback({
+      messaage: 'Feedback successfully removed!',
+      feedback
+    });
+    
+  })
+}
