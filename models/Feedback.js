@@ -24,27 +24,37 @@ module.exports.findOne = function(id, callback){
 }
 
 module.exports.findAll = function(reqQuery, callback){
-  var page = parseInt(reqQuery.page || 0)
-  var size = parseInt(reqQuery.size || 10)
-  
+  var page = parseInt(reqQuery.page || 0),
+  size = parseInt(reqQuery.size || 10),
+  orderBy = reqQuery.orderBy || 'deliveryDate',
+  orderDirection = reqQuery.orderDir || -1,
+  cid = reqQuery.cid || '';
+
   // Find some documents
   Feedback.countDocuments({},function(err,totalCount) {
-    var query = {}
+    var query = {}, sort = {}
 
     if(page < 0 || page === 0) {
       response = {"error" : true,"message" : "invalid page number, should start with 1"};
       callback(response);
       return;
+    } else if (cid !== '') {
+      response = {"error" : true,"message" : "invalid customer id"};
+      callback(response);
+      return;
     }
     query.skip = size * (page - 1)
     query.limit = size
-    
+
+    sort[orderBy] = orderDirection;
+
     if(err) {
       response = {"error" : true,"message" : "Error fetching data"}
     } else {
-      Feedback.find({})
+      Feedback.find({customer: cid})
       .skip(query.skip)
       .limit(query.limit)
+      .sort( sort )
       .populate('product')
       .populate('customer')
       .exec(function(err,result) {
@@ -65,8 +75,16 @@ module.exports.findAll = function(reqQuery, callback){
  */
 module.exports.findAllFeedbacks = function(query, callback){
   
+  var orderBy = query.orderBy || 'deliveryDate',
+  orderDirection = query.orderDir || -1,
+  cid = query.cid || '',
+  sort = {};
+
+  sort[orderBy] = orderDirection;
+
   // Find some documents
-  Feedback.find()
+  Feedback.find({customer: cid})
+  .sort( sort )
   .populate('product')
   .populate('customer')
   .exec(function(err,result) {

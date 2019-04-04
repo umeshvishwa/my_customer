@@ -4,6 +4,7 @@ import auth0Client from '../Auth';
 import $http from '../Utility/Http';
 import qs from 'query-string';
 import moment from 'moment';
+import CustomerRecentOrderProducts from './CustomerRecentOrderProducts';
 
 class Customer extends Component {
   constructor(props) {
@@ -81,14 +82,7 @@ class Customer extends Component {
                     </div>
                   </div>            
                   <div className="col-xs-12 divider text-center">
-                      <div className="col-xs-12 col-sm-4 emphasis">
-                          <h2><strong> 20,7K </strong></h2>                    
-                          <p><small>Followers</small></p>
-                          <button className="btn btn-success btn-block" 
-                            onClick={() => {this.props.history.push(`/customer/product/add/${customer._id}`)}}>
-                            <span className="fa fa-plus-circle"></span> Add Product 
-                          </button>
-                      </div>
+                      <CustomerRecentOrderProducts cid={customer._id}/>
                       <div className="col-xs-12 col-sm-4 emphasis">
                           <h2><strong>245</strong></h2>                    
                           <p><small>Following</small></p>
