@@ -6,8 +6,8 @@ var feedbackSchema = new Schema({
   offerGiven: String,
   firstCall: Date,
   secondCall: Date,
-  serviceRating: {type: Number, min: 1, max: 5, default:0},
-  productRating: {type: Number, min: 1, max: 5, default:0},
+  serviceRating: {type: Number, min: 0, max: 5, default:0},
+  productRating: {type: Number, min: 0, max: 5, default:0},
   referenceGiven: String,
   remarks: String,
   product: {type: Schema.Types.ObjectId, ref: 'Product'},
@@ -38,7 +38,7 @@ module.exports.findAll = function(reqQuery, callback){
       response = {"error" : true,"message" : "invalid page number, should start with 1"};
       callback(response);
       return;
-    } else if (cid !== '') {
+    } else if (cid == '') {
       response = {"error" : true,"message" : "invalid customer id"};
       callback(response);
       return;

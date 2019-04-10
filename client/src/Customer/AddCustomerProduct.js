@@ -120,13 +120,13 @@ class AddCustomerProduct extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    let customer = this.state;
+    let {feedback} = this.state;
 
     if(this.state.feedback._id === undefined) {
       $http.post("/feedback/add", this.state.feedback)
       .then(({data}) => {
-        if(data._id) {
-          this.props.history.push(`/customer/view?id=${customer._id}&user=${customer.userId}`)
+        if(data.feedback._id) {
+          this.props.history.push(`/customer/view?id=${feedback.customer._id}&user=${feedback.customer.userId}`)
         }
       })
       .catch(reason => {
@@ -136,8 +136,8 @@ class AddCustomerProduct extends Component {
       $http.post("/feedback/update", this.state.feedback)
       .then(({data}) => {
         console.log(data)
-        if(data) {
-          this.props.history.push(`/customer/view?id=${customer._id}&user=${customer.userId}`)
+        if(data.feedback._id) {
+          this.props.history.push(`/customer/view?id=${feedback.customer._id}&user=${feedback.customer.userId}`)
         }
       })
       .catch(reason => {
@@ -182,11 +182,6 @@ class AddCustomerProduct extends Component {
                 <label>Offer Given:</label>
                 <input type="text" className="form-control" onChange={this.handleChange} value={feedback.offerGiven}  
                  name="offerGiven" placeholder="Offer given" />
-              </div>
-              <div className="col-12 col-sm-6 col-lg-6">
-                <label>Email ID:</label>
-                <input type="text" className="form-control" onChange={this.handleChange} value={customer.email}  
-                 name="email" placeholder="Email" required="required" />
               </div>
             </div>
             <div className="row">

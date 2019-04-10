@@ -56,17 +56,18 @@ class Customer extends Component {
                     </div>
                     <div className="row">
                       <div className="col-xs-12 col-sm-8">
-                          <p>
+                          {customer.birthDate !== '' && <p>
                             <strong>Birth: </strong> {moment(customer.birthDate, 'YYYY-MM-DD').format('DD MMM YYYY')} 
                             <strong style={{"paddingLeft": "15px"}}>Age: </strong> {this.getAge(customer.birthDate)} 
                           </p>
+                          }
                           {customer.anniversary !== '' && <p><strong>Anniversary: </strong> {moment(customer.anniversary, 'YYYY-MM-DD').format('DD MMM YYYY')} </p>}
                           {customer.email !== '' && <p><strong>Email: </strong> {customer.email} </p>}
                           {customer.mobile !== '' && <p><strong>Mobile: </strong> {customer.mobile} </p>}
                       </div>             
                       <div className="col-xs-12 col-sm-4">
-                          <p><strong>Address: </strong>
-                              {customer.line1 && <span className="label">{customer.line1}</span> }
+                          <p><strong>Address: </strong></p>
+                          <p>    {customer.line1 && <span className="label">{customer.line1}</span> }
                               {customer.line2 && <span className="label">{customer.line2}</span>}
                               {customer.city && <span className="label">{customer.city}</span>}
                               {customer.postal_code && <span className="label"> - {customer.postalCode}</span>}
@@ -75,7 +76,7 @@ class Customer extends Component {
                           </p>
                           {customer.incomeBracket !== '' && <p><strong>Income Range: </strong> {customer.incomeBracket} </p>}
                           {customer.pcId !== null && <p>
-                            <strong>CustomerID: </strong> {customer.pcId} 
+                            <strong>CustomerID: </strong> {customer.pcId} <br/>
                             <strong>Password: </strong> {customer.password} 
                           </p>}   
                       </div>
