@@ -30,7 +30,7 @@ class Customers extends Component {
     $http.get("/customer/getAll?user=" + userProfile.sub)
     .then(({data}) => {
       this.setState(Object.assign(this.state, {
-          customers: data,
+          customers: data.customers,
       }));
     })
     .catch((reason) => {
