@@ -26,8 +26,9 @@ var customerSchema = new Schema({
 var Customer = mongoose.model('Customer', customerSchema);
 
 module.exports.findOne = function(id, callback){
-  Customer.findOne({id: id}, function(err, result){
+  Customer.findOne({_id: id}, function(err, result){
     if ( err ) throw err;
+    
     callback(result);
   });
 }

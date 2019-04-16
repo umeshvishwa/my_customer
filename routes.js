@@ -9,7 +9,7 @@ var productBrandController = require("./controllers/ProductBrandController");
 var productCategoryController = require("./controllers/ProductCategoryController");
 var productController = require("./controllers/ProductController");
 var feedbackController = require("./controllers/FeedbackController");
-var Address = require('./models/Address');
+
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
       cache: true,
