@@ -79,23 +79,23 @@ module.exports.findAll = function(reqQuery, callback){
 
 module.exports.addCustomer = function(body, callback){
   var customer = new Customer();
-  customer.userId = req.body.userId;
-  customer.firstName = req.body.firstName;
-  customer.lastName = req.body.lastName;
-  customer.mobile = req.body.mobile;
-  customer.email = req.body.email;
-  customer.birthDate = req.body.birthDate;
-  customer.anniversary = req.body.anniversary;
-  customer.incomeBracket = req.body.incomeBracket;
-  customer.isPc = req.body.isPc;
-  customer.pcId = req.body.pcId;
-  customer.password = req.body.password;
+  customer.userId = body.userId;
+  customer.firstName = body.firstName;
+  customer.lastName = body.lastName;
+  customer.mobile = body.mobile;
+  customer.email = body.email;
+  customer.birthDate = body.birthDate;
+  customer.anniversary = body.anniversary;
+  customer.incomeBracket = body.incomeBracket;
+  customer.isPc = body.isPc;
+  customer.pcId = body.pcId;
+  customer.password = body.password;
   //Address Info
-  customer.line1 = req.body.line1;
-  customer.line2 = req.body.line2;
-  customer.city = req.body.city;
-  customer.state = req.body.state;
-  customer.postalCode = req.body.postalCode;
+  customer.line1 = body.line1;
+  customer.line2 = body.line2;
+  customer.city = body.city;
+  customer.state = body.state;
+  customer.postalCode = body.postalCode;
   
   //Saving the model instance to the DB
   customer.save(function(err, customer) {
