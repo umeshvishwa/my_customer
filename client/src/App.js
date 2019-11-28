@@ -9,6 +9,8 @@ import SecuredAdminRoute from './SecuredRoute/SecuredAdminRoute';
 import AccessDenied from './Custom/AccessDenied';
 
 import Home from './Home/Home';
+import PaseFlyer from './Home/PaseFlyer';
+import PaseFlyerPreview from './Home/PaseFlyerPreview';
 import Customers from './Customers/Customers';
 import AddCustomer from './Customer/AddCustomer';
 import Customer from './Customer/Customer';
@@ -48,6 +50,8 @@ class App extends Component {
       <div>
         <NavBar/>
         <Route exact path='/' component={Home}/>
+        <Route exact path='/pase' component={PaseFlyer}/>
+        <Route exact path='/pase/preview' component={PaseFlyerPreview}/>
         <SecuredRoute path='/customers' component={Customers} checkingSession={this.state.checkingSession}/>
         <SecuredRoute exact path='/customer/update' component={AddCustomer} checkingSession={this.state.checkingSession}/>
         <SecuredRoute exact path='/customer/add' component={AddCustomer} checkingSession={this.state.checkingSession}/>

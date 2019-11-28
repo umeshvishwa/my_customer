@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "repository": "https://github.com/umeshvishwa/my_customer.git",
-  "author": "Kumar Vishwakarma, U. <u.kumar.vishwakarma@accenture.com>",
+  "author": "Umesh Vishwakarma",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.3",

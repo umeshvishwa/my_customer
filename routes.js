@@ -9,6 +9,7 @@ var productBrandController = require("./controllers/ProductBrandController");
 var productCategoryController = require("./controllers/ProductCategoryController");
 var productController = require("./controllers/ProductController");
 var feedbackController = require("./controllers/FeedbackController");
+var paseFlyerController = require("./controllers/PaseFlyerController");
 
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
@@ -229,6 +230,33 @@ router.route('/feedback/:id')
 //Delete existing
 router.delete('/feedback/:id', function(req, res){
     feedbackController.deleteFeedback(req.params.id, function(results){
+        res.json(results);
+    });
+});
+
+
+/**
+ * Routes for managing paseFlyer
+ */
+//Add new feedback
+router.route('/flyer/add')
+.post(function(req,res) {
+    paseFlyerController.addPaseFlyer(req.body, function(results) {
+        res.json(results);
+    });
+})
+
+//Get all the feedbacks without pagination
+router.get('/flyer/all', function(req, res){
+    paseFlyerController.getAllFlyers(req.query, function(results){
+        res.json(results);
+    });
+});
+
+//Update existing category
+router.route('/flyer/:id')
+.put(function(req, res){
+    paseFlyerController.updateFlyer(req.body, req.params.id, function(results){
         res.json(results);
     });
 });
