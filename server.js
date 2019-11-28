@@ -16,7 +16,7 @@ const dbRoute = "mongodb://mcdbuser:gurgaon#01@ds139944.mlab.com:39944/my_custom
 // connects our back end code with the database
 mongoose.connect(
   dbRoute,
-  { useNewUrlParser: true }
+  { useNewUrlParser: true, useUnifiedTopology: true }
 );
 let db = mongoose.connection;
 
